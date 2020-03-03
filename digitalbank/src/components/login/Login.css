@@ -1,0 +1,43 @@
+body{
+  background-image: url(../img/photography-of-city-building-1049302.jpg);
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+.title{
+  color: white;
+  font-size: 1.4em;
+  padding-bottom: 20%;
+}
+.login-form{
+  padding: 2%;
+  max-width: 380px;
+  margin:8% auto auto 70%;
+  height: 600px;
+  background-color: #006DBA;
+
+}
+#logo{
+  margin-top: 10%;
+  width: 80%;
+  margin: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+label, a{
+  color: white !important;
+}
+a:hover{
+  color: #E02140 !important;
+}
+#button{
+  margin-top: 10%;
+  background-color: #02214f;
+  margin-bottom: 1%;
+  border: none;
+}
+#button:hover {
+  background-color: #E02140; 
+
+}
