@@ -1,55 +1,42 @@
 import React from 'react';
 import { withRouter, Link  } from 'react-router-dom'
+import logo from './img/logo.png';
 
 class NavBar extends React.Component {
 
     render()
     {
         return (
-            <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/AccountSummary">Account Summary</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="#">Sign in</Link>
-                    </li>
-                </div>
-            </nav>
-            <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-            <a class="navbar-brand mr-auto mr-lg-0" href="#">Offcanvas navbar</a>
-            <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-          
-            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Notifications</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Profile</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Switch account</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
-                  <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+          <nav>
+          <div className="row p-3 bg-white">
+              <div className="col-4">
+                  <Link className="navbar-brand" to="/"><img src={logo} className="logo mr-3" alt="WEJA BANK" />WEJA BANK</Link>
+              </div>
+              <div className="col-8 d-flex justify-content-end">
+                  <Link className="nav-link dropdown-toggle" data-toggle="dropdown" to="/" role="button" aria-haspopup="true" aria-expanded="false">Other Sites</Link>
+                  <div className="dropdown-menu">
+                      <Link className="dropdown-item" to="/">WEJA bank site 1</Link>
+                      <Link className="dropdown-item" to="/">WEJA bank site 2</Link>
                   </div>
-                </li>
-              </ul>
-              
-            </div>
-          </nav>
+  
+                  <button type="button" className="btn bg-mainblue text-white">
+                      My Messages <span className="badge badge-light">4</span>
+                  </button>
+                  <Link type="button" className="btn btn-danger bg-mainred" to="/">Sign out</Link>
+              </div>
           </div>
+  
+          <div className="nav-scroller bg-mainblue shadow-sm col-12">
+              <nav className="d-flex nav nav-underline">
+                  <Link className="nav-link active" to="/accountsummary">Accounts Summary</Link>
+                  <Link className="nav-link" to="/paymenttransfers">Payments & Transfers</Link>
+                  <Link className="nav-link" to="/productservices">Products & Services</Link>
+                  <Link className="nav-link" to="/myprofile">My Profile</Link>
+                  <Link className="nav-link" to="/locatebranch">Locate an ATM or Branch</Link>
+                  <Link className="nav-link" to="/contactus">Contact Us</Link>
+              </nav>
+          </div>
+      </nav>
         );
     }
 

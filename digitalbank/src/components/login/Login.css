@@ -25,12 +25,12 @@ body{
   margin-right: auto;
 
 }
-label, a{
-  color: white !important;
+/* label, a{
+  color: white;
 }
 a:hover{
-  color: #E02140 !important;
-}
+  color: #E02140;
+} */
 #button{
   margin-top: 10%;
   background-color: #02214f;

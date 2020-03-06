@@ -1,0 +1,109 @@
+html,
+body {
+    overflow-x: hidden;
+    padding-top: 0.1em;
+}
+
+td {
+    vertical-align: middle;
+}
+
+.nav-scroller {
+    position: relative;
+    height: 2.75rem;
+    /*  overflow: hidden;*/
+}
+
+.nav-scroller .nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    color: rgba(255, 255, 255, .75);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.nav-underline .nav-link {
+    padding-top: .75rem;
+    font-size: .875rem;
+    color: white;
+
+}
+
+.nav-underline .nav-link:hover {
+    color: wheat;
+    border-bottom: 3px solid #E02140;
+}
+
+.nav-underline .active {
+    font-weight: 500;
+    color: wheat;
+    border-bottom: 3px solid #E02140;
+}
+
+.logo {
+    width: 6rem;
+}
+
+.text-white-50 {
+    color: rgba(255, 255, 255, .5);
+}
+
+.bg-mainblue {
+    background-color: #006DBA;
+}
+
+.bg-secondblue {
+    background-color: #006DBA;
+}
+
+.bg-mainred {
+    background-color: #E02140;
+}
+
+.lh-125 {
+    line-height: 1.25;
+}
+
+.quick-pay-div {
+    color: white;
+}
+
+.quick-pay-div p {
+    font-weight: 500;
+    font-size: .875rem;
+}
+
+.quick-pay-form {
+    font-size: .8rem;
+    line-height: 1.5;
+    color: #02214F;
+}
+
+.formGroupPretend {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: .4rem;
+    text-align: center;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+}
+
+.form-element {
+    display: block;
+    width: 100%;
+    padding: .4rem;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    color: 	#808080;
+}
+
+a{
+    color: blue;
+}
+a:hover{
+    color: #E02140;
+}
