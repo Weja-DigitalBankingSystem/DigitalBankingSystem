@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter, Link  } from 'react-router-dom'
+import { withRouter, Link, NavLink  } from 'react-router-dom'
 import logo from './img/logo.png';
 
 class NavBar extends React.Component {
@@ -27,13 +27,13 @@ class NavBar extends React.Component {
           </div>
   
           <div className="nav-scroller bg-mainblue shadow-sm col-12">
-              <nav className="d-flex nav nav-underline">
-                  <Link className="nav-link active" to="/accountsummary">Accounts Summary</Link>
-                  <Link className="nav-link" to="/paymenttransfers">Payments & Transfers</Link>
-                  <Link className="nav-link" to="/productservices">Products & Services</Link>
-                  <Link className="nav-link" to="/myprofile">My Profile</Link>
-                  <Link className="nav-link" to="/locatebranch">Locate an ATM or Branch</Link>
-                  <Link className="nav-link" to="/contactus">Contact Us</Link>
+              <nav className="d-flex nav nav-underline" id="nav">
+                  <NavLink className="nav-link" activeClassName="navactivity" to="/accountsummary">Accounts Summary</NavLink>
+                  <NavLink className="nav-link" activeClassName="navactivity" to="/paymenttransfers">Payments & Transfers</NavLink>
+                  <NavLink className="nav-link" activeClassName="navactivity" to="/productservices">Products & Services</NavLink>
+                  <NavLink className="nav-link" activeClassName="navactivity" to="/myprofile">My Profile</NavLink>
+                  <NavLink className="nav-link" activeClassName="navactivity" to="/locatebranch">Locate an ATM or Branch</NavLink>
+                  <NavLink className="nav-link" activeClassName="navactivity" to="/contactus">Contact Us</NavLink>
               </nav>
           </div>
       </nav>

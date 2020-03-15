@@ -1,7 +1,16 @@
-html,
+html {
+    height:100%;
+}
 body {
     overflow-x: hidden;
     padding-top: 0.1em;
+    height:100%;
+    background-image:none;
+    background-color: #cccccc;
+}
+
+.small-size {
+    font-size: .8rem;
 }
 
 td {
@@ -40,6 +49,18 @@ td {
     font-weight: 500;
     color: wheat;
     border-bottom: 3px solid #E02140;
+}
+
+.navactivity{
+    color: wheat;
+    border-bottom: 3px solid #E02140;
+}
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+    z-index:2;
+    color:#ffffff;
+    background-color:#006DBA;
+    border-color:#2196f3;
 }
 
 .logo {
@@ -99,11 +120,4 @@ td {
     background-color: #fff;
     border: 1px solid #ced4da;
     color: 	#808080;
-}
-
-a{
-    color: blue;
-}
-a:hover{
-    color: #E02140;
 }

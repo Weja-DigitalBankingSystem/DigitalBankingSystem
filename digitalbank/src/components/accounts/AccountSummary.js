@@ -20,6 +20,10 @@ class AccountSummary extends React.Component {
         };
     }
 
+    componentDidMount() { 
+        document.body.style.background= '#fff'; 
+    }
+
     render() {
         return (
             <div className="bg-white">

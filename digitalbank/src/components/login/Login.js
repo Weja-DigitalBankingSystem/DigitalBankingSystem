@@ -11,19 +11,19 @@ class Login extends Component {
           <img src={logo} alt="app logo" id ="logo"/>
           <div class="title text-center">WEJA Bank Application</div>
           <FormGroup>
-            <Label>Email</Label>
+            <Label className="login-label">Email</Label>
             <Input type="email" placeholder="email"/>
           
         </FormGroup>
         <FormGroup>
-          <Label>Password</Label>
+          <Label  className="login-label">Password</Label>
             <Input type="password" placeholder="password"/>
           </FormGroup>
           <Button className="btn-lg btn-block" id="button">Log in</Button>
           <div className="text-center">
-            <a href="/sign-up">Sign up</a>
+            <a className="login-a" href="/sign-up">Sign up</a>
             <span className="p-2">|</span>
-            <a href="/sign-up">Forgot Password</a>        
+            <a className="login-a" href="/sign-up">Forgot Password</a>        
 
         </div>
         

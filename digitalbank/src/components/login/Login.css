@@ -25,12 +25,15 @@ body{
   margin-right: auto;
 
 }
-/* label, a{
+
+.login-label, .login-a {
   color: white;
 }
-a:hover{
+
+.login-a:hover{
   color: #E02140;
-} */
+} 
+
 #button{
   margin-top: 10%;
   background-color: #02214f;
@@ -39,5 +42,4 @@ a:hover{
 }
 #button:hover {
   background-color: #E02140; 
-
 }
