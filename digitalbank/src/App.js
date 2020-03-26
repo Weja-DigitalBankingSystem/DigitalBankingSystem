@@ -27,16 +27,13 @@ class App extends React.Component {
       <div id="main-content">
         <BrowserRouter>
         <Switch>
-          <Route exact path='/' component={Login}>
-          </Route>
+          <Route exact path='/' component={Login}/>
           <Route path="/accountsummary" component={AccountSummary}/>
           <Route path="/productservices" component={ProductServices}/>
           <Route path="/paymenttransfers" component={PaymentTransfers}/>
           <Route path="/myprofile" component={MyProfile}/>
           <Route path="/locatebranch" component={LocateBranch}/>
-          <Route path="/contactus" component={ContactUs}/>
-          
-          
+          <Route path="/contactus" component={ContactUs}/>          
           <Route path='*'>
             <div>Page not found</div>
           </Route>

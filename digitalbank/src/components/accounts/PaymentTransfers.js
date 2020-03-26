@@ -124,7 +124,7 @@ class PaymentTransfers extends React.Component {
                                 </div>
                                 <div class="tab-pane fade" id="list-etransfers" role="tabpanel" aria-labelledby="list-etransfers-list">
                                 <h3 className="mb-0">Interac e-Transfers</h3>
-                                    <p className="mt-4">Donec venenatis vitae lacus ac consectetur. Suspendisse nec dui sit amet arcu elementum varius. Morbi blandit turpis at luctus rutrum. Nunc eu felis venenatis, egestas arcu ac, condimentum ipsum. Cras commodo diam at ligula pulvinar, ac blandit quam fringilla. In varius lorem orci, ut lacinia tellus ornare eget. In auctor congue ligula, non euismod urna sagittis et. Proin tincidunt enim non lacus scelerisque imperdiet. Nunc eget sem vitae mi dapibus lobortis. Fusce maximus a ipsum eu fringilla. Lorem ipsum dolor sit amet, <a href="#">consectetur adipiscing elit</a>.
+                                    <p className="mt-4">Donec venenatis vitae lacus ac consectetur. Suspendisse nec dui sit amet arcu elementum varius. Morbi blandit turpis at luctus rutrum. Nunc eu felis venenatis, egestas arcu ac, condimentum ipsum. Cras commodo diam at ligula pulvinar, ac blandit quam fringilla. In varius lorem orci, ut lacinia tellus ornare eget. In auctor congue ligula, non euismod urna sagittis et. Proin tincidunt enim non lacus scelerisque imperdiet. Nunc eget sem vitae mi dapibus lobortis. Fusce maximus a ipsum eu fringilla. Lorem ipsum dolor sit amet, <a href="/login">consectetur adipiscing elit</a>.
                                     </p>
                                     <hr className="mt-4"/>
                                     <p className="text-danger">* Required field</p>
@@ -156,7 +156,7 @@ class PaymentTransfers extends React.Component {
                                             <input type="text" className="form-element" placeholder="Enter Amount" />
                                         </div>
                                         
-                                        <a href="#">Send to a New Recipient</a>
+                                        <a href="/login">Send to a New Recipient</a>
                                         <div className="d-flex mb-2 mt-2 justify-content-end">
                                         <button type="button" className="btn-sm btn-warning mt-3">Verify Transfer</button>
                                         </div>
