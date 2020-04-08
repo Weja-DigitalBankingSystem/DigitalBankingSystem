@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link  } from 'react-router-dom'
-
+import SingleAccount from './SingleAccount';
 import './summary.css';
 import NavBar from '../NavBar';
 
@@ -10,21 +10,30 @@ class AccountSummary extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            credentials: {
-                userAccount: [],
-                userName: 'Wendy Du',
-            },
+            Accounts: [],
             errors: {
-
             }
-        };
+        };        
     }
 
     componentDidMount() { 
-        document.body.style.background= '#fff'; 
+        document.body.style.background= '#fff';
+        fetch("http://localhost:8080/api/AccountDetail", {
+        method: "GET",
+        headers: {
+            "Content-Type":"application/json",
+            "Authorization":"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbW9uIiwiZXhwIjoxNTg1NzU1MTEwLCJpYXQiOjE1ODU3MTkxMTB9.pUxD0riq_b-jj8-zMG_b-7I0DSnacRXpM--VUEHKA_Y"
+        },     
+        })
+        .then(      
+        response => response.json())
+        .then(data => {
+            this.setState({Accounts : data});
+        });   
     }
 
     render() {
+        
         return (
             <div className="bg-white">
                 <NavBar component={NavBar}/>
@@ -47,18 +56,13 @@ class AccountSummary extends React.Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td className="align-middle col-8"><Link to="/"><u>Chequing</u></Link> 2345 6789-012</td>
-                                            <td className="align-middle text-right">$12,345.00</td>
-                                            <td className="align-middle">
-                                                <Link className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions</Link>
-                                                <div className="dropdown-menu">
-                                                    <Link className="dropdown-item" to="/">action 1</Link>
-                                                    <Link className="dropdown-item" to="/">action 2</Link>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
+                                        { this.state.Accounts.map(item=>(
+                                            
+                                            <SingleAccount key={item.accountno} item={item}/>
+                                                                                      
+                                        ))                                        
+                                        }
+                                        {/* <tr>
                                             <td className="align-middle"><Link to="/"><u>Student Account</u></Link> 888 6789-123</td>
                                             <td className="align-middle text-right">$7,452.00</td>
                                             <td>
@@ -79,8 +83,8 @@ class AccountSummary extends React.Component {
                                                     <Link className="dropdown-item" to="/">action 2</Link>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
+                                        </tr> */}
+                                        {/* <tr>
                                             <td className="align-middle"><Link to="/"><u>Mastercard</u></Link> 678 6789-679</td>
                                             <td className="align-middle text-right">$567.00</td>
                                             <td>
@@ -90,7 +94,7 @@ class AccountSummary extends React.Component {
                                                     <Link className="dropdown-item" to="/">action 2</Link>
                                                 </div>
                                             </td>
-                                        </tr>
+                                        </tr> */}
                                     </tbody>
                                 </table>
                             </div>
