@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter, Link, NavLink  } from 'react-router-dom'
 import logo from './img/logo.png';
 import {Button} from 'reactstrap';
+import Logout from './logout/logout'
 
 class NavBar extends React.Component {
 
@@ -24,7 +25,8 @@ class NavBar extends React.Component {
                       My Messages <span className="badge badge-light">4</span>
                   </button>
                   &nbsp;&nbsp;
-                  <Button type="button" className="btn btn-danger bg-mainred" href="/">Sign out</Button>
+                  {/* <Button type="button" className="btn btn-danger bg-mainred" href="/">Sign out</Button> */}
+                  <Logout />
               </div>
           </div>
   
