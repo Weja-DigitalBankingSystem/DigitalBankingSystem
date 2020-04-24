@@ -3,33 +3,151 @@ import { Link  } from 'react-router-dom'
 import SingleAccount from './SingleAccount';
 import './summary.css';
 import NavBar from '../NavBar';
+import axios from 'axios';
 
-
+const joinPath = (...paths) => paths.map(it=> it.replace(/^\/|\/$/g, '')).join('/')
 class AccountSummary extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             Accounts: [],
-            errors: {
+            error: {},
+            transfer: {
+                account_id: '1995',
+                sendto_id:'1995',
+                amount: '',
+                currency:'',
+                description:'this is a test for WEJA'
             }
-        };        
+            
+        };   
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        
+    }
+    getBalanceAPI = () => {
+        const token = localStorage.getItem('token')
+            const url = 'https://apisandbox.openbankproject.com/obp/v4.0.0/banks/gh.29.uk/balances'
+            axios({
+              url,
+              method: 'GET', // *GET, POST, PUT, DELETE, etc.
+              mode: 'cors', // no-cors, *cors, same-origin
+              cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `DirectLogin token="${token}"`
+              }
+            }).then(result => {
+                const b = this.changeData(result.accounts)
+                console.log(result.accounts)
+
+                this.setState({Accounts: result.accounts})
+                
+            },
+            (error)=>{
+                this.setState({error});
+            })
+
+    }
+    changeData= (data) =>{
+        var id;
+        for(var i = 0; i < data.length; i++){
+            delete data[1];
+            delete data[5];
+
+            if(data[0].hasOwnProperty("label")){ //added missing closing parenthesis
+                data[0].label = 'Chequing Account 20009991995';
+            }
+            if(data[2].hasOwnProperty("label")){
+                data[2].label = ["Student Account 398488222"];
+            }
+            if(data[3].hasOwnProperty("label")){
+                data[3].label = ["Saving Account 1234567888sef567f"];
+            }
+            if(data[4].hasOwnProperty("label")){
+                data[4].label = ["Credit Account 289ab58s52ew22"];
+            }
+            break;
+        }
+    }
+    componentDidMount() { 
+        this.getBalanceAPI()
+        // window.location.reload()
     }
 
-    componentDidMount() { 
-        document.body.style.background= '#fff';
-        fetch("http://localhost:8080/api/AccountDetail", {
-        method: "GET",
-        headers: {
-            "Content-Type":"application/json",
-            "Authorization":"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbW9uIiwiZXhwIjoxNTg1NzU1MTEwLCJpYXQiOjE1ODU3MTkxMTB9.pUxD0riq_b-jj8-zMG_b-7I0DSnacRXpM--VUEHKA_Y"
-        },     
+    generateBalance=() =>{
+        return Object.keys(this.state.Accounts).map((item, i) => {
+            return (
+                <tr key ={i} >
+                    <td className="align-middle col-6"><Link to ="/accountsummary">{this.state.Accounts[item].label}</Link></td>
+                    <td className="align-middle text-left">{this.state.Accounts[item].balance.amount}</td>
+                    <td className="align-middle col-2 ">{this.state.Accounts[item].balance.currency}</td>
+                </tr>
+            )
         })
-        .then(      
-        response => response.json())
-        .then(data => {
-            this.setState({Accounts : data});
-        });   
+    }
+    testValue = () =>{
+        for(let key in (this.state.Accounts)){
+
+        }
+    }
+    handleChange(event) {
+        this.setState({errors: {}})
+        const {name,value} = event.target
+        const clonedData = {...this.state.transfer}
+        clonedData[name] = value
+        this.setState({transfer:clonedData})
+      }
+    handleSubmit(event) {
+        this.transactionRequest()
+        event.preventDefault();
+    }
+    dropdownMenu = () => {
+        return Object.keys(this.state.Accounts).map((item, i) => {
+            return (
+                    <option value={this.state.Accounts[item].id} >{this.state.Accounts[item].label}</option>
+            )
+        })
+
+        
+    }
+    transactionRequest = (e) => {
+        const token = localStorage.getItem('token')
+        const base_url = 'https://apisandbox.openbankproject.com/obp/v4.0.0/banks/gh.29.uk/accounts'
+        const account_id =this.state.transfer.account_id;
+        const sendto_id =this.state.transfer.sendto_id;
+        const currency =this.state.transfer.currency;
+        const amount = this.state.transfer.amount;
+        const description = this.state.transfer.description;
+
+        const view_id ='owner';
+        const url =  joinPath(base_url,account_id,view_id, '/transaction-request-types/SANDBOX_TAN/transaction-requests')
+        axios({
+        url,
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `DirectLogin token="${token}"`
+        },
+        data: {
+             "to":{    "bank_id":"gh.29.uk",    "account_id":`${sendto_id}`  },  "value":{    "currency":`${currency}`,    "amount":`${amount}`  },  "description": `${description}`
+            
+            }
+        }).then(result => {
+            if(result){
+                alert('Transfer was succesful')
+                this.getBalanceAPI()
+            }
+        console.log(result)
+        },(error)=>{
+            this.setState({error});
+            alert('Get error. Please choose the right currency and the amount less than 800!')
+            console.log(error)
+        })
+
     }
 
     render() {
@@ -42,7 +160,7 @@ class AccountSummary extends React.Component {
                         <div className="container">
                             <div className="align-items-center p-3 mt-3 mb-0 text-white-50 bg-secondblue rounded shadow-sm">
                                 <div>
-                                    <h6 className="mb-0 text-white ">Bank & Credit Card</h6>
+                                    <h6 className="mb-0 text-white ">Bank &amp; Credit Card</h6>
                                 </div>
                             </div>
 
@@ -52,49 +170,11 @@ class AccountSummary extends React.Component {
                                         <tr>
                                             <th scope="col">Account</th>
                                             <th scope="col">Balance</th>
-                                            <th scope="col">Quick Menu</th>
+                                            <th scope="col">Currency</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        { this.state.Accounts.map(item=>(
-                                            
-                                            <SingleAccount key={item.accountno} item={item}/>
-                                                                                      
-                                        ))                                        
-                                        }
-                                        {/* <tr>
-                                            <td className="align-middle"><Link to="/"><u>Student Account</u></Link> 888 6789-123</td>
-                                            <td className="align-middle text-right">$7,452.00</td>
-                                            <td>
-                                                <Link className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions</Link>
-                                                <div className="dropdown-menu">
-                                                    <Link className="dropdown-item" to="/">action 1</Link>
-                                                    <Link className="dropdown-item" to="/">action 2</Link>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="align-middle"><Link to="/"><u>Savings</u></Link> 678 6789-679</td>
-                                            <td className="align-middle text-right">$12,123.00</td>
-                                            <td>
-                                                <Link className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions</Link>
-                                                <div className="dropdown-menu">
-                                                    <Link className="dropdown-item" to="/">action 1</Link>
-                                                    <Link className="dropdown-item" to="/">action 2</Link>
-                                                </div>
-                                            </td>
-                                        </tr> */}
-                                        {/* <tr>
-                                            <td className="align-middle"><Link to="/"><u>Mastercard</u></Link> 678 6789-679</td>
-                                            <td className="align-middle text-right">$567.00</td>
-                                            <td>
-                                                <Link className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions</Link>
-                                                <div className="dropdown-menu">
-                                                    <Link className="dropdown-item" to="/">action 1</Link>
-                                                    <Link className="dropdown-item" to="/">action 2</Link>
-                                                </div>
-                                            </td>
-                                        </tr> */}
+                                        {this.generateBalance()}
                                     </tbody>
                                 </table>
                             </div>
@@ -118,7 +198,7 @@ class AccountSummary extends React.Component {
                                         <tr>
                                             <td className="align-middle col-8"><Link to="/"><u>TFSA</u></Link></td>
                                             <td className="align-middle text-right">$23,456.00</td>
-                                            <td className="align-middle">
+                                            <td className="align-middle ">
                                                 <Link className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions</Link>
                                                 <div className="dropdown-menu">
                                                     <Link className="dropdown-item" to="/">action 1</Link>
@@ -138,7 +218,7 @@ class AccountSummary extends React.Component {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className="align-middle"><Link to="/"><u>NONRegisted GIC</u></Link></td>
+                                            <td className="align-middle col-8"><Link to="/"><u>NONRegisted GIC</u></Link></td>
                                             <td className="align-middle text-right">$2,789.00</td>
                                             <td>
                                                 <Link className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions</Link>
@@ -154,7 +234,7 @@ class AccountSummary extends React.Component {
 
                             <div className="align-items-center p-3 mt-2 mb-0 text-white-50 bg-secondblue rounded shadow-sm">
                                 <div>
-                                    <h6 className="mb-0 text-white ">Mortgage & Loans</h6>
+                                    <h6 className="mb-0 text-white ">Mortgage &amp; Loans</h6>
                                 </div>
                             </div>
                             <div className="bg-white rounded shadow-sm">
@@ -193,43 +273,41 @@ class AccountSummary extends React.Component {
                                 </table>
                             </div>
                         </div>
-
-
                         <div className="my-3 p-0 bg-white rounded shadow-sm col-3">
                             <div className="quick-pay-div bg-secondblue rounded p-3">
-                                <p>Quick Payments & Transfers</p>
-                                <form className="quick-pay-form">
+                                <p>Quick Payments &amp; Transfers</p>
+                                <form className="quick-pay-form" onSubmit={this.handleSubmit}>
                                     <div className="d-flex mb-2">
                                         <div className="formGroupPretend">
                                             <span>From:</span>
                                         </div>
-                                        <select className="form-element" id="exampleFormControlSelect1">
-                                            <option>Chequing 2345 6789-012</option>
-                                            <option>Student Account 888 6789-123</option>
+                                        <select className="form-element" name= "account_id" id="exampleFormControlSelect" onChange ={this.handleChange}>
+                                            {this.dropdownMenu()}
+
                                         </select>
                                     </div>
                                     <div className="d-flex mb-2">
                                         <div className="formGroupPretend">
                                             <span>To:</span>
                                         </div>
-                                        <select className="form-element" id="exampleFormControlSelect1">
-                                            <option>Select...</option>
-                                            <option>Chequing 2345 6789-012</option>
-                                            <option>Student Account 888 6789-123</option>
+                                        <select className="form-element" name= "sendto_id" id="exampleFormControlSelect1" onChange ={this.handleChange}>
+                                            {this.dropdownMenu()}
                                         </select>
                                     </div>
                                     <div className="d-flex mb-2">
                                         <div className="formGroupPretend">
                                             <span>$</span>
                                         </div>
-                                        <input type="text" className="form-element" placeholder="0.00" />
-                                        <select className="form-element ml-2" id="exampleFormControlSelect1">
+                                        <input type="text" className="form-element" placeholder="0.00" name="amount" onChange ={this.handleChange}/>
+                                        <select className="form-element ml-2" id="exampleFormControlSelect2" onChange = {this.handleChange} name="currency">
                                             <option>CAD</option>
+                                            <option>EUR</option>
+                                            <option>GBP</option>
                                             <option>USD</option>
                                         </select>
                                     </div>
                                     <div className="d-flex mb-2 mt-2 justify-content-end">
-                                    <button type="button" className="btn-sm btn-warning">Submit</button>
+                                    <button type="submit" value="Submit"  className="btn-sm btn-warning">Submit</button>
                                     </div>
                                 </form>
                             </div>

@@ -1,15 +1,15 @@
 import React from 'react';
 import './summary.css';
 import NavBar from '../NavBar';
+import axios from 'axios';
 
 class PaymentTransfers extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            credentials: {
-                userAccount: [],
-                userName: 'Wendy Du',
+            data: {
+                transaction: ''
             },
             errors: {
 
@@ -20,7 +20,26 @@ class PaymentTransfers extends React.Component {
     componentDidMount() { 
         document.body.style.background= '#fff'; 
     }
-
+    getTransactionHistory = () =>{
+        const token = localStorage.getItem('token')
+            const url = 'https://apisandbox.openbankproject.com/obp/v4.0.0/banks/gh.29.uk/accounts/1234567888/owner/transaction-requests'
+            axios({
+              url,
+              method: 'GET', // *GET, POST, PUT, DELETE, etc.
+              mode: 'cors', // no-cors, *cors, same-origin
+              cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `DirectLogin token="${token}"`
+              }
+            }).then(result => {
+              this.setState({data: result.transaction_requests_with_charges})
+              console.log(result.transaction_requests_with_charges)
+            },
+            (error)=>{
+                this.setState({error});
+            })
+    }
     render() {
         return (
             <div>
@@ -29,10 +48,10 @@ class PaymentTransfers extends React.Component {
                     <container class="container d-flex my-3">
                         <div class="col-4">
                             <div class="list-group" id="list-tab" role="tablist">
-                            <a class="list-group-item list-group-item-action active" id="list-Transfer-list" data-toggle="list" href="#list-Transfer" role="tab" aria-controls="home">Make a Transfer</a>
-                            <a class="list-group-item list-group-item-action" id="list-payment-list" data-toggle="list" href="#list-payment" role="tab" aria-controls="profile">Make a Payment</a>
-                            <a class="list-group-item list-group-item-action" id="list-etransfers-list" data-toggle="list" href="#list-etransfers" role="tab" aria-controls="messages">Interac e-Transfers</a>
-                            <a class="list-group-item list-group-item-action" id="list-history-list" data-toggle="list" href="#list-history" role="tab" aria-controls="settings">Payment & Transfers History</a>
+                            <a className="list-group-item list-group-item-action active" id="list-Transfer-list" data-toggle="list" href="#list-Transfer" role="tab" aria-controls="home">Make a Transfer</a>
+                            <a className="list-group-item list-group-item-action" id="list-payment-list" data-toggle="list" href="#list-payment" role="tab" aria-controls="profile">Make a Payment</a>
+                            <a className="list-group-item list-group-item-action" id="list-etransfers-list" data-toggle="list" href="#list-etransfers" role="tab" aria-controls="messages">Interac e-Transfers</a>
+                            <a className="list-group-item list-group-item-action" id="list-history-list" data-toggle="list" href="#list-history" role="tab" aria-controls="settings" onClick= {this.getTransactionHistory}>Payment & Transfers History</a>
                             </div>
                         </div>
                         <div class="col-8">
@@ -64,11 +83,17 @@ class PaymentTransfers extends React.Component {
                                             </select>
                                         </div>
                                         <div className="d-flex mb-2">
-                                            <div className="formGroupPretend col-3">
-                                                <span className="text-danger">*</span><span>Amount:</span><span className="d-flex justify-content-end">$</span>
-                                            </div>
-                                            <input type="text" className="form-element" placeholder="0.00" />
+                                        <div className="formGroupPretend col-3">
+                                            <span>Amount</span>
                                         </div>
+                                        <input type="text" className="form-element" placeholder="0.00" name="amount" />
+                                        <select className="form-element ml-2" id="exampleFormControlSelect1" onChange = {this.handleChange} name="currency">
+                                            <option>CAD</option>
+                                            <option>EUR</option>
+                                            <option>GPB</option>
+                                            <option>USD</option>
+                                        </select>
+                                    </div>
                                         <div className="d-flex mb-2 mt-2 justify-content-end">
                                         <button type="button" className="btn-sm btn-warning mt-3">Verify Transfer</button>
                                         </div>

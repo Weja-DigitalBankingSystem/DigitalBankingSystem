@@ -13,13 +13,13 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 class App extends React.Component {
 
-  constructor(props) {
-      super(props);
-      this.state = {
-        isAuthenticated: '',
-        userEmail: '',
-      };
-  }
+  // constructor(props) {
+  //     super(props);
+  //     this.state = {
+  //       isAuthenticated: '',
+  //       userEmail: '',
+  //     };
+  // }
 
   render() {
   return (
